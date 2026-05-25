@@ -2,702 +2,163 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="zlolxWorkspaceTool - Kumpulan tool cerdas termasuk AI gratis, color studio, QR maker, unit converter, dan notes. Pilih tool yang kamu butuhkan, klik dan gunakan!">
-    <meta name="keywords" content="AI gratis, workspace tools, color generator, QR code maker, unit converter, catatan online, zlolx">
-    <meta name="author" content="zlolx">
-    <meta name="theme-color" content="#0f0c29">
-    <title>zlolxWorkspaceTool | Pilihan Tool Cerdas & AI Gratis</title>
-    
-    <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="zlolxWorkspaceTool - Pilihan Tool Cerdas">
-    <meta property="og:description" content="Klik kartu tool, langsung pakai. Ada AI gratis, color studio, QR maker, dan banyak lagi!">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630?text=zlolxWorkspaceTool">
-    
-    <!-- Google Fonts & Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zlolxWorkspaceTool - AI Groq</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #24243e 100%);
-            background-attachment: fixed;
-            color: #f0f0f0;
+            font-family: system-ui, -apple-system, 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #1a1a3e, #24243e);
+            color: white;
+            padding: 1.5rem;
             min-height: 100vh;
         }
-
-        /* Container utama */
-        .app-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
-
-        /* ========== HEADER ========== */
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 1rem 0;
-        }
-
-        .logo {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #00d2ff, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #a0c0ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.5px;
-        }
-
-        .tagline {
-            color: #a0a8c0;
-            margin-top: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        /* ========== HALAMAN DEPAN (PILIHAN TOOL) ========== */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        /* Kartu pilihan - bisa diklik */
-        .choice-card {
-            background: rgba(25, 25, 55, 0.8);
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 1rem; }
+        .chat-card {
+            background: rgba(20,20,45,0.8);
             backdrop-filter: blur(12px);
             border-radius: 28px;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 1.8rem 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .choice-card:hover {
-            transform: translateY(-6px);
-            border-color: #00d2ff;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.3), 0 0 15px rgba(0,210,255,0.2);
-        }
-
-        .choice-card:active {
-            transform: translateY(-2px);
-        }
-
-        .card-icon {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #00d2ff, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
-        }
-
-        .choice-card h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .choice-card p {
-            font-size: 0.85rem;
-            color: #a0a8c0;
-            margin-bottom: 1rem;
-        }
-
-        .click-hint {
-            font-size: 0.7rem;
-            color: #00d2ff;
-            opacity: 0.7;
-        }
-
-        /* ========== KONTEN TOOL (AWALNYA TERSEMBUNYI) ========== */
-        .tool-panel {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .tool-panel.active-tool {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Tombol kembali */
-        .back-btn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            margin-bottom: 1.5rem;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .back-btn:hover {
-            background: rgba(0,210,255,0.2);
-            border-color: #00d2ff;
-        }
-
-        /* Card tool workspace */
-        .workspace-card {
-            background: rgba(20, 20, 45, 0.8);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            border: 1px solid rgba(255,255,255,0.1);
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-
-        .workspace-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .workspace-header i {
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, #00d2ff, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .workspace-header h2 {
-            font-size: 1.4rem;
-            font-weight: 600;
-        }
-
-        /* Komponen tool */
         .chat-messages {
             background: rgba(0,0,0,0.3);
             border-radius: 20px;
             padding: 1rem;
-            height: 250px;
+            height: 400px;
             overflow-y: auto;
             margin-bottom: 1rem;
-            border: 1px solid rgba(255,255,255,0.1);
         }
-
-        .message {
-            margin-bottom: 12px;
-            display: flex;
-        }
-
+        .message { margin-bottom: 12px; display: flex; }
+        .message.user { justify-content: flex-end; }
         .message.bot .bubble {
-            background: rgba(50, 50, 90, 0.8);
+            background: rgba(50,50,90,0.8);
             padding: 8px 14px;
             border-radius: 18px 18px 18px 4px;
             max-width: 80%;
-            font-size: 0.85rem;
         }
-
-        .message.user {
-            justify-content: flex-end;
-        }
-
         .message.user .bubble {
             background: linear-gradient(135deg, #00d2ff, #3a7bd5);
             padding: 8px 14px;
             border-radius: 18px 18px 4px 18px;
             max-width: 80%;
-            font-size: 0.85rem;
         }
-
         .chat-input-area {
             display: flex;
             gap: 8px;
         }
-
-        .chat-input-area input, .qr-input input, .notes-textarea, .converter-row input, #converterType {
+        .chat-input-area input {
             flex: 1;
             padding: 12px 16px;
             border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.2);
             background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.2);
             color: white;
             font-family: inherit;
         }
-
-        .notes-textarea {
-            border-radius: 20px;
-            resize: vertical;
-        }
-
         button {
             background: linear-gradient(135deg, #00d2ff, #3a7bd5);
             border: none;
             color: white;
-            padding: 0 20px;
+            padding: 0 24px;
             border-radius: 40px;
-            font-weight: 500;
             cursor: pointer;
-            transition: 0.2s;
+            font-weight: 500;
         }
-
-        button:hover {
-            opacity: 0.85;
-        }
-
-        .action-btn {
-            padding: 8px 18px;
-            margin-top: 10px;
-            margin-right: 8px;
-            display: inline-block;
-        }
-
-        .color-box {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 15px 0;
-            flex-wrap: wrap;
-        }
-
-        #colorDisplay {
-            width: 70px;
-            height: 70px;
-            border-radius: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .qr-input {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        #qrCanvas {
-            background: white;
-            border-radius: 16px;
-            padding: 8px;
-            margin-top: 10px;
-        }
-
-        .converter-row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .converter-row > div {
-            flex: 1;
-        }
-
-        #convResult {
-            background: rgba(0,210,255,0.15);
-            padding: 10px;
-            border-radius: 16px;
-            margin-top: 12px;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.7rem;
-            color: #6c7a9e;
-        }
-
-        /* Responsive HP */
-        @media (max-width: 640px) {
-            .app-container {
-                padding: 1rem;
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
-            .choice-card {
-                padding: 1.2rem;
-            }
-            .card-icon {
-                font-size: 2.2rem;
-            }
-            .workspace-card {
-                padding: 1rem;
-            }
-            button {
-                padding: 0 15px;
-            }
-        }
+        button:hover { opacity: 0.85; }
+        .footer { text-align: center; margin-top: 1rem; font-size: 0.7rem; color: #8892b0; }
     </style>
 </head>
 <body>
-<div class="app-container">
-    <!-- Header -->
-    <div class="header">
-        <div class="logo">
-            <i class="fas fa-cubes"></i>
-        </div>
-        <h1>zlolxWorkspaceTool</h1>
-        <p class="tagline">✨ Pilih tool di bawah, klik kartunya, langsung pakai ✨</p>
-    </div>
-
-    <!-- HALAMAN DEPAN: GRID KARTU PILIHAN (bisa diklik) -->
-    <div id="homeScreen">
-        <div class="tools-grid">
-            <div class="choice-card" data-tool="ai">
-                <div class="card-icon"><i class="fas fa-brain"></i></div>
-                <h3>🤖 AI Assistant</h3>
-                <p>Chatbot AI gratis, tanya apa saja, jawaban cerdas instan</p>
-                <div class="click-hint"><i class="fas fa-hand-pointer"></i> Klik untuk buka</div>
-            </div>
-            <div class="choice-card" data-tool="notes">
-                <div class="card-icon"><i class="fas fa-pen-fancy"></i></div>
-                <h3>📝 Smart Notes</h3>
-                <p>Catatan cepat, auto save di browser, bisa hapus</p>
-                <div class="click-hint"><i class="fas fa-hand-pointer"></i> Klik untuk buka</div>
-            </div>
-            <div class="choice-card" data-tool="color">
-                <div class="card-icon"><i class="fas fa-palette"></i></div>
-                <h3>🎨 Color Studio</h3>
-                <p>Generate warna random + copy HEX code</p>
-                <div class="click-hint"><i class="fas fa-hand-pointer"></i> Klik untuk buka</div>
-            </div>
-            <div class="choice-card" data-tool="qr">
-                <div class="card-icon"><i class="fas fa-qrcode"></i></div>
-                <h3>📱 QR Creator</h3>
-                <p>Buat QR code dari teks atau URL, gratis</p>
-                <div class="click-hint"><i class="fas fa-hand-pointer"></i> Klik untuk buka</div>
-            </div>
-            <div class="choice-card" data-tool="converter">
-                <div class="card-icon"><i class="fas fa-calculator"></i></div>
-                <h3>📐 Unit Converter</h3>
-                <p>Konversi suhu & panjang, real-time</p>
-                <div class="click-hint"><i class="fas fa-hand-pointer"></i> Klik untuk buka</div>
+<div class="container">
+    <h1>🤖 zlolx AI (Groq)</h1>
+    <div class="chat-card">
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="bubble">Halo! Saya AI dengan Groq. Tanya apa saja! 🚀</div>
             </div>
         </div>
-        <footer>
-            <i class="fas fa-mouse-pointer"></i> Klik kartu pilihanmu | SEO friendly & responsif
-        </footer>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Ketik pesan...">
+            <button id="sendBtn">Kirim</button>
+        </div>
     </div>
-
-    <!-- KONTEN TOOL (AWALNYA TERSEMBUNYI) -->
-    <div id="toolContent" style="display: none;">
-        <button class="back-btn" id="backToHomeBtn"><i class="fas fa-arrow-left"></i> Kembali ke Pilihan Tool</button>
-        <div id="activeToolPanel"></div>
+    <div class="footer">
+        🔐 API key aman tersimpan di Cloudflare Environment Variable
     </div>
 </div>
 
-<!-- Library QR Code -->
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-
 <script>
-    (function() {
-        // DOM elements
-        const homeScreen = document.getElementById('homeScreen');
-        const toolContent = document.getElementById('toolContent');
-        const activePanel = document.getElementById('activeToolPanel');
-        const backBtn = document.getElementById('backToHomeBtn');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
 
-        // Data tool definitions
-        const tools = {
-            ai: {
-                name: "🤖 AI Assistant",
-                icon: "fas fa-brain",
-                render: () => `
-                    <div class="workspace-card">
-                        <div class="workspace-header">
-                            <i class="fas fa-brain"></i>
-                            <h2>zlolx AI (Gratis)</h2>
-                        </div>
-                        <div class="chat-messages" id="chatMessages">
-                            <div class="message bot">
-                                <div class="bubble">Halo! Saya AI gratis. Tanya apa saja ya! 😊</div>
-                            </div>
-                        </div>
-                        <div class="chat-input-area">
-                            <input type="text" id="chatInput" placeholder="Ketik pesan...">
-                            <button id="sendChatBtn"><i class="fas fa-paper-plane"></i> Kirim</button>
-                        </div>
-                        <div class="tool-footer" style="margin-top:12px; font-size:0.7rem; color:#8892b0;">
-                            <i class="fas fa-microchip"></i> AI cerdas tanpa API key
-                        </div>
-                    </div>
-                `,
-                init: () => {
-                    const chatMessages = document.getElementById('chatMessages');
-                    const chatInput = document.getElementById('chatInput');
-                    const sendBtn = document.getElementById('sendChatBtn');
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
 
-                    function escapeHtml(str) {
-                        return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'));
-                    }
-                    function addMessage(role, text) {
-                        const msgDiv = document.createElement('div');
-                        msgDiv.className = `message ${role}`;
-                        msgDiv.innerHTML = `<div class="bubble">${escapeHtml(text)}</div>`;
-                        chatMessages.appendChild(msgDiv);
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }
-                    function getResponse(msg) {
-                        const m = msg.toLowerCase();
-                        if(m.includes("halo")||m.includes("hai")) return "Halo! Selamat datang di zlolxWorkspaceTool! Ada yang bisa dibantu?";
-                        if(m.includes("terima kasih")) return "Sama-sama! Senang membantu 🙌";
-                        if(m.includes("tool")) return "Tool yang tersedia: AI Chat, Notes, Color Studio, QR Maker, Unit Converter. Klik kembali untuk pilih tool lain!";
-                        if(m.includes("zlolx")) return "zlolxWorkspaceTool adalah workspace keren dengan berbagai tool pilihan. Klik kartu untuk menggunakan!";
-                        if(m.includes("tanggal")) return `Hari ini: ${new Date().toLocaleDateString('id-ID')}`;
-                        return `Menarik! "${msg.substring(0,50)}..." — Saya AI gratis. Coba tanya hal lain ya! ✨`;
-                    }
-                    function handleSend() {
-                        const text = chatInput.value.trim();
-                        if(!text) return;
-                        addMessage('user', text);
-                        chatInput.value = '';
-                        addMessage('bot', '⏳ ...');
-                        const last = chatMessages.lastChild;
-                        setTimeout(() => {
-                            if(last && last.innerText.includes('⏳')) last.remove();
-                            addMessage('bot', getResponse(text));
-                        }, 300);
-                    }
-                    if(sendBtn) sendBtn.onclick = handleSend;
-                    if(chatInput) chatInput.onkeypress = e => { if(e.key === 'Enter') handleSend(); };
-                }
-            },
-            notes: {
-                name: "📝 Smart Notes",
-                icon: "fas fa-pen-fancy",
-                render: () => `
-                    <div class="workspace-card">
-                        <div class="workspace-header">
-                            <i class="fas fa-pen-fancy"></i>
-                            <h2>Smart Notes</h2>
-                        </div>
-                        <textarea id="notesArea" class="notes-textarea" rows="6" placeholder="Tulis catatanmu disini..."></textarea>
-                        <div>
-                            <button id="saveNotesBtn" class="action-btn"><i class="fas fa-save"></i> Simpan</button>
-                            <button id="clearNotesBtn" class="action-btn"><i class="fas fa-trash-alt"></i> Hapus</button>
-                        </div>
-                        <div class="tool-footer" style="margin-top:12px; font-size:0.7rem;">💾 Tersimpan otomatis di browser</div>
-                    </div>
-                `,
-                init: () => {
-                    const notesArea = document.getElementById('notesArea');
-                    const saved = localStorage.getItem('zlolx_notes');
-                    if(notesArea) notesArea.value = saved || 'Selamat datang di zlolxWorkspaceTool! 📝\nCatatanmu akan tersimpan.';
-                    document.getElementById('saveNotesBtn')?.addEventListener('click', () => {
-                        localStorage.setItem('zlolx_notes', notesArea.value);
-                        alert('✅ Catatan tersimpan!');
-                    });
-                    document.getElementById('clearNotesBtn')?.addEventListener('click', () => {
-                        if(confirm('Hapus semua catatan?')) {
-                            notesArea.value = '';
-                            localStorage.removeItem('zlolx_notes');
-                        }
-                    });
-                }
-            },
-            color: {
-                name: "🎨 Color Studio",
-                icon: "fas fa-palette",
-                render: () => `
-                    <div class="workspace-card">
-                        <div class="workspace-header">
-                            <i class="fas fa-palette"></i>
-                            <h2>Color Studio</h2>
-                        </div>
-                        <div class="color-box">
-                            <div id="colorDisplay" style="background-color: #3b82f6;"></div>
-                            <div><span id="hexCode">#3B82F6</span><br><small>klik generate</small></div>
-                        </div>
-                        <button id="generateColorBtn" class="action-btn"><i class="fas fa-sync-alt"></i> Random Warna</button>
-                        <button id="copyHexBtn" class="action-btn"><i class="far fa-copy"></i> Salin HEX</button>
-                        <div id="copyToast" style="font-size:0.7rem; margin-top:8px;"></div>
-                    </div>
-                `,
-                init: () => {
-                    const colorDisplay = document.getElementById('colorDisplay');
-                    const hexSpan = document.getElementById('hexCode');
-                    const genBtn = document.getElementById('generateColorBtn');
-                    const copyBtn = document.getElementById('copyHexBtn');
-                    const toast = document.getElementById('copyToast');
-                    function randomHex() {
-                        return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
-                    }
-                    genBtn.onclick = () => {
-                        const col = randomHex();
-                        colorDisplay.style.backgroundColor = col;
-                        hexSpan.innerText = col.toUpperCase();
-                    };
-                    copyBtn.onclick = () => {
-                        navigator.clipboard.writeText(hexSpan.innerText);
-                        toast.innerText = `✅ ${hexSpan.innerText} disalin!`;
-                        setTimeout(() => toast.innerText = '', 1500);
-                    };
-                }
-            },
-            qr: {
-                name: "📱 QR Creator",
-                icon: "fas fa-qrcode",
-                render: () => `
-                    <div class="workspace-card">
-                        <div class="workspace-header">
-                            <i class="fas fa-qrcode"></i>
-                            <h2>QR Creator</h2>
-                        </div>
-                        <div class="qr-input">
-                            <input type="text" id="qrTextInput" placeholder="Teks atau URL" value="https://zlolx.space">
-                            <button id="generateQRBtn">Buat QR</button>
-                        </div>
-                        <canvas id="qrCanvas" width="140" height="140"></canvas>
-                        <div id="qrInfo" style="font-size:0.7rem; margin-top:6px;"></div>
-                    </div>
-                `,
-                init: () => {
-                    const qrInput = document.getElementById('qrTextInput');
-                    const qrBtn = document.getElementById('generateQRBtn');
-                    const qrCanvas = document.getElementById('qrCanvas');
-                    const qrInfo = document.getElementById('qrInfo');
-                    function genQR(text) {
-                        if(!text) { qrInfo.innerText = 'Masukkan teks/URL'; return; }
-                        const ctx = qrCanvas.getContext('2d');
-                        ctx.clearRect(0,0,140,140);
-                        if(typeof QRCode === 'undefined') { qrInfo.innerText = 'Loading QR...'; return; }
-                        const div = document.createElement('div');
-                        new QRCode(div, { text: text, width: 140, height: 140 });
-                        const img = div.querySelector('img');
-                        if(img) {
-                            const image = new Image();
-                            image.onload = () => { ctx.drawImage(image,0,0,140,140); qrInfo.innerText = '✅ QR siap!'; };
-                            image.src = img.src;
-                        } else { qrInfo.innerText = 'Gagal generate'; }
-                    }
-                    qrBtn.onclick = () => genQR(qrInput.value.trim() || 'zlolx.space');
-                    genQR('zlolx.space');
-                }
-            },
-            converter: {
-                name: "📐 Unit Converter",
-                icon: "fas fa-calculator",
-                render: () => `
-                    <div class="workspace-card">
-                        <div class="workspace-header">
-                            <i class="fas fa-calculator"></i>
-                            <h2>Unit Converter</h2>
-                        </div>
-                        <select id="converterType" style="width:100%; margin-bottom:12px;">
-                            <option value="temp">🌡️ Suhu (Celsius ↔ Fahrenheit)</option>
-                            <option value="length">📏 Panjang (Meter ↔ Kaki)</option>
-                        </select>
-                        <div id="converterUI"></div>
-                        <div id="convResult"></div>
-                    </div>
-                `,
-                init: () => {
-                    const convType = document.getElementById('converterType');
-                    const convUI = document.getElementById('converterUI');
-                    const convRes = document.getElementById('convResult');
-                    function renderConv() {
-                        if(convType.value === 'temp') {
-                            convUI.innerHTML = `<div class="converter-row"><div><label>Celsius</label><input type="number" id="cVal" value="25"></div><div><label>Fahrenheit</label><input type="number" id="fVal" value="77"></div></div>`;
-                            const c = document.getElementById('cVal');
-                            const f = document.getElementById('fVal');
-                            const update = () => { let cel = parseFloat(c.value)||0; f.value = ((cel*9/5)+32).toFixed(2); convRes.innerText = `${cel}°C = ${f.value}°F`; };
-                            c.oninput = update;
-                            f.oninput = () => { let far = parseFloat(f.value)||0; c.value = ((far-32)*5/9).toFixed(2); convRes.innerText = `${far}°F = ${c.value}°C`; };
-                            update();
-                        } else {
-                            convUI.innerHTML = `<div class="converter-row"><div><label>Meter</label><input type="number" id="mVal" value="1" step="any"></div><div><label>Feet</label><input type="number" id="ftVal" value="3.28084" step="any"></div></div>`;
-                            const m = document.getElementById('mVal');
-                            const ft = document.getElementById('ftVal');
-                            const upM = () => { let meter = parseFloat(m.value)||0; ft.value = (meter*3.28084).toFixed(4); convRes.innerText = `${meter} m = ${ft.value} feet`; };
-                            const upFt = () => { let feet = parseFloat(ft.value)||0; m.value = (feet/3.28084).toFixed(4); convRes.innerText = `${feet} ft = ${m.value} m`; };
-                            m.oninput = upM;
-                            ft.oninput = upFt;
-                            upM();
-                        }
-                    }
-                    convType.onchange = renderConv;
-                    renderConv();
-                }
-            }
-        };
+    function addMessage(role, text) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${role}`;
+        msgDiv.innerHTML = `<div class="bubble">${escapeHtml(text)}</div>`;
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 
-        // Fungsi untuk membuka tool tertentu
-        function openTool(toolId) {
-            const tool = tools[toolId];
-            if(!tool) return;
-            
-            // Sembunyikan home, tampilkan konten tool
-            homeScreen.style.display = 'none';
-            toolContent.style.display = 'block';
-            
-            // Render tool
-            activePanel.innerHTML = tool.render();
-            
-            // Inisialisasi event listener tool
-            if(tool.init) {
-                setTimeout(() => tool.init(), 10);
-            }
-            
-            // Update judul halaman (SEO friendly)
-            document.title = `${tool.name} | zlolxWorkspaceTool`;
-        }
+    async function sendMessage() {
+        const userMessage = chatInput.value.trim();
+        if (!userMessage) return;
 
-        // Kembali ke home
-        function backToHome() {
-            homeScreen.style.display = 'block';
-            toolContent.style.display = 'none';
-            activePanel.innerHTML = '';
-            document.title = "zlolxWorkspaceTool | Pilihan Tool Cerdas & AI Gratis";
-            // Scroll ke atas
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        addMessage('user', userMessage);
+        chatInput.value = '';
+        
+        // Loading indicator
+        addMessage('bot', '⏳ Sedang berpikir...');
+        const loadingMsg = chatMessages.lastChild;
 
-        // Event listener untuk kartu pilihan di home
-        document.querySelectorAll('.choice-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                const toolId = card.getAttribute('data-tool');
-                if(toolId) openTool(toolId);
+        try {
+            // Panggil endpoint proxy (API key tersimpan di backend Cloudflare)
+            const response = await fetch('/api/groq', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: 'mixtral-8x7b-32768',
+                    messages: [
+                        { role: 'user', content: userMessage }
+                    ],
+                    temperature: 0.7
+                })
             });
-        });
 
-        // Tombol kembali
-        backBtn.addEventListener('click', backToHome);
-
-        // Optional: Handle browser back button agar kembali ke home
-        window.addEventListener('popstate', () => {
-            if(toolContent.style.display === 'block') {
-                backToHome();
+            const data = await response.json();
+            
+            // Hapus loading message
+            if (loadingMsg && loadingMsg.parentNode) loadingMsg.remove();
+            
+            if (data.error) {
+                addMessage('bot', `Error: ${data.error}`);
+            } else {
+                const reply = data.choices?.[0]?.message?.content || 'Maaf, tidak ada respons.';
+                addMessage('bot', reply);
             }
-        });
-    })();
+        } catch (error) {
+            if (loadingMsg && loadingMsg.parentNode) loadingMsg.remove();
+            addMessage('bot', `Error: ${error.message}`);
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
 </script>
 </body>
 </html>
